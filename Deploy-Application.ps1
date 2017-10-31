@@ -62,7 +62,7 @@ Try {
 	[string]$appArch = 'x86'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
-	[string]$appScriptVersion = '2.0.0'
+	[string]$appScriptVersion = '2.0.1'
 	[string]$appScriptDate = '10/30/2017'
 	[string]$appScriptAuthor = 'Jordan Hamilton'
 	##*===============================================
@@ -118,9 +118,6 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
-		$exitCode = Remove-MSIApplications -Name "Adobe Shockwave Player" -PassThru
-		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
-
 		If (Test-Path -LiteralPath (Join-Path -Path $envSystemRoot -ChildPath "SysWOW64\Adobe\Shockwave 12\uninstaller.exe") -PathType 'Leaf') {
 			Write-Log -Message 'Shockwave Player was previously installed with an executable. Will be uninstalled.' -Source $deployAppScriptFriendlyName
 			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 12\uninstaller.exe" -Parameters "/S" -Windows "Hidden" -WaitForMsiExec -PassThru
@@ -131,6 +128,10 @@ Try {
 			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 11\uninstaller.exe" -Parameters "/S" -Windows "Hidden" -WaitForMsiExec -PassThru
 			If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		}
+
+		$exitCode = Remove-MSIApplications -Name "Adobe Shockwave Player" -PassThru
+		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
 		##*===============================================
 		##* INSTALLATION
 		##*===============================================
@@ -215,8 +216,8 @@ Catch {
 # SIG # Begin signature block
 # MIIU4wYJKoZIhvcNAQcCoIIU1DCCFNACAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDzmsD5kfcP6hHi
-# ZRnsPSqwjXesD0hiO2SO2Gt2tLS+qqCCD4cwggQUMIIC/KADAgECAgsEAAAAAAEv
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAsnkF5gl8PvNNN
+# wy+p/R4ddjIKCj8n7GB6H0CvAY3UzqCCD4cwggQUMIIC/KADAgECAgsEAAAAAAEv
 # TuFS1zANBgkqhkiG9w0BAQUFADBXMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xv
 # YmFsU2lnbiBudi1zYTEQMA4GA1UECxMHUm9vdCBDQTEbMBkGA1UEAxMSR2xvYmFs
 # U2lnbiBSb290IENBMB4XDTExMDQxMzEwMDAwMFoXDTI4MDEyODEyMDAwMFowUjEL
@@ -303,26 +304,26 @@ Catch {
 # FgNlZHUxGTAXBgoJkiaJk/IsZAEZFgltc3VkZW52ZXIxFTATBgoJkiaJk/IsZAEZ
 # FgV3aW5hZDEZMBcGA1UEAxMQd2luYWQtVk1XQ0EwMS1DQQITfwAAACITuo77mvOv
 # 9AABAAAAIjANBglghkgBZQMEAgEFAKBmMBgGCisGAQQBgjcCAQwxCjAIoAKAAKEC
-# gAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwLwYJKoZIhvcNAQkEMSIEIEMp
-# 1iGa5atnnS9cBIYDWgjp2+IDAkeX5WyIqdjzRwg4MA0GCSqGSIb3DQEBAQUABIIB
-# AIbsLFadVui7KPpZX5nt9gUYr8Lsm9Mk2GvF54lMIAtNjVmj1O89gJDGYaie1NtB
-# Biv53Vhe/CrFM6rGtSriRzgCWgB+2xQueFLPq26+61yyXkXWuEQFHSQWpzSlNwqR
-# jd/C5U0TU3X1vswiKGvO5ZeNrY8r76NRaRrmCeRw3P53RIqFKHcta0UW5JOEhjoB
-# klfGIZrDIoHR32lDBBCd6lHdr1eRvLXlO3dcAWAeqfI6KH0ZUoM3OFdeDPoBeqTm
-# IUczxDangpZ1TdBIG/t9+uvthpFm4ohyEXH7jhksAB+s1Cv/EraTO8EXUc8k8rZH
-# 98TzUBi5O3LHQTDPdYLUEQuhggKiMIICngYJKoZIhvcNAQkGMYICjzCCAosCAQEw
+# gAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwLwYJKoZIhvcNAQkEMSIEIHd/
+# kSEdGGSBd1xWS+EgYrITDsRTwcJ0UdHA2B3v4DSYMA0GCSqGSIb3DQEBAQUABIIB
+# AGH3edL6uAUNGOB8P8+NTHGX3RCEdpUP4a6hpkjDuPsCqHwcl5QzpEZfItdPLOo2
+# x5bLkon9+hbbs8qiLlK7hCMbIAtSnFvKjyCy//IY/9mKlhqJoPzbcU7vFVo/nXNX
+# QAEPl4F8zin7IMT0SRVtIQ3KTJAEu6TVciHDD66AMSPlOZz59M74aDP/irx5uVQf
+# t/vyjQeRQOo6FI8E5BvFssci+CO/B5NYgNsWSc8t7eyvuM/dLb8BxLNCRat4RD3q
+# chCW29fPL7zhcf/M96fZfmOHdnbopuCIZ2SoaWLbh0SroDj/HHabpespcBS40Klp
+# yK6IM89BuRz6ytbKy6u6ZiuhggKiMIICngYJKoZIhvcNAQkGMYICjzCCAosCAQEw
 # aDBSMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTEoMCYG
 # A1UEAxMfR2xvYmFsU2lnbiBUaW1lc3RhbXBpbmcgQ0EgLSBHMgISESHWmadklz7x
 # +EJ+6RnMU0EUMAkGBSsOAwIaBQCggf0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
-# ATAcBgkqhkiG9w0BCQUxDxcNMTcxMDMwMjIxMzQyWjAjBgkqhkiG9w0BCQQxFgQU
-# UTjiHfg5ZLjQ0ramBwlN/plSwV0wgZ0GCyqGSIb3DQEJEAIMMYGNMIGKMIGHMIGE
+# ATAcBgkqhkiG9w0BCQUxDxcNMTcxMDMxMjE1NDI2WjAjBgkqhkiG9w0BCQQxFgQU
+# AGqT9+6z/1S8u9Gz2VsusxHsUAowgZ0GCyqGSIb3DQEJEAIMMYGNMIGKMIGHMIGE
 # BBRjuC+rYfWDkJaVBQsAJJxQKTPseTBsMFakVDBSMQswCQYDVQQGEwJCRTEZMBcG
 # A1UEChMQR2xvYmFsU2lnbiBudi1zYTEoMCYGA1UEAxMfR2xvYmFsU2lnbiBUaW1l
 # c3RhbXBpbmcgQ0EgLSBHMgISESHWmadklz7x+EJ+6RnMU0EUMA0GCSqGSIb3DQEB
-# AQUABIIBAGsF/rWU4F77kpaxYA89Xypc7VHzy+rUtiCWwJGHCftFNCKZ1/r84iSo
-# E0hELAwhWbM9SeS3TW8OjfhiDXJS/0sqTOAheQB5vZs1R5PX1Xbf7+2/47lynRfS
-# 208f7R3/hBIfC4XOT7t8JhWiHRHPtX7accDPFLEsZzHXRhP38QpaRrgr8aOVIynA
-# 0b565/PYkQVDdeU3cA6lP5xDAVkDRUo05VDNzX/DQr9BrDrsZSA15idX6YXSYb1k
-# 56EfixVrdBDZbmb0DPGiIORdOP1xS4gKxqsjlnvHuQRSwNRffV8/1Zyd1AVLNwGC
-# 9BhrWqMS7WCMTz2w33/Fvbgaor3z1ws=
+# AQUABIIBAFZQs1RsuMw3SbuwgrKfj+dxSCe+gfNrVSRt2I1dScifcWsrZYHkyNm5
+# v2tdYP4RgKMcZVWikXtlSW0eyAf//JSgEuHUJ3Bo1A4G7oMgdjXcCpN/riAiq7mq
+# RuwgZnfzbhCJ7KIsqwrboKVxehcFTBT4OW83RV4HRPqFwrtGSQ5ySoNtKX0cj8GN
+# zChwb66K+UKHEPl3uPrELluRohjSW1nP/r5Fsbew9OSxsmbeITwxFJAF8WX8KysG
+# pvwY7Yuoc3+pm/iF2rsIJoAfGtmg+f+qwuBCvRBmDpwlfGja2JECnu2uAK0yJDhD
+# h/vU0pBP5upndn/Pn+9NASZyycn93dg=
 # SIG # End signature block
