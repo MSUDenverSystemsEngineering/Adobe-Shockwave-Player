@@ -58,13 +58,13 @@ Try {
 	## Variables: Application
 	[string]$appVendor = 'Adobe'
 	[string]$appName = 'Shockwave'
-	[string]$appVersion = '12.2.9.199'
+	[string]$appVersion = '12.3.1.201'
 	[string]$appArch = 'x86'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '2.0.1'
-	[string]$appScriptDate = '10/30/2017'
-	[string]$appScriptAuthor = 'Jordan Hamilton'
+	[string]$appScriptDate = '2/15/18'
+	[string]$appScriptAuthor = 'Steve Patterson'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
 	[string]$installName = ''
@@ -120,12 +120,12 @@ Try {
 		## <Perform Pre-Installation tasks here>
 		If (Test-Path -LiteralPath (Join-Path -Path $envSystemRoot -ChildPath "SysWOW64\Adobe\Shockwave 12\uninstaller.exe") -PathType 'Leaf') {
 			Write-Log -Message 'Shockwave Player was previously installed with an executable. Will be uninstalled.' -Source $deployAppScriptFriendlyName
-			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 12\uninstaller.exe" -Parameters "/S" -Windows "Hidden" -WaitForMsiExec -PassThru
+			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 12\uninstaller.exe" -Parameters "/S" -WindowStyle "Hidden" -WaitForMsiExec -PassThru
 			If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		}
 		If (Test-Path -LiteralPath (Join-Path -Path $envSystemRoot -ChildPath "SysWOW64\Adobe\Shockwave 11\uninstaller.exe") -PathType 'Leaf') {
 			Write-Log -Message 'Shockwave Player was previously installed with an executable. Will be uninstalled.' -Source $deployAppScriptFriendlyName
-			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 11\uninstaller.exe" -Parameters "/S" -Windows "Hidden" -WaitForMsiExec -PassThru
+			$exitCode = Execute-Process -Path "$envSystemRoot\SysWOW64\Adobe\Shockwave 11\uninstaller.exe" -Parameters "/S" -WindowStyle "Hidden" -WaitForMsiExec -PassThru
 			If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		}
 
